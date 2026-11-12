@@ -18,9 +18,9 @@ Create a `.env` file in the `backend` directory:
 
 ```env
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/finsight
-JWT_SECRET=your_super_secret_jwt_key_change_this
-OPENAI_API_KEY=sk-your-openai-api-key-here
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=generate_a_long_random_secret
+OPENAI_API_KEY=your_openai_api_key_optional
 NODE_ENV=development
 ```
 

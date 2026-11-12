@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { dirname, resolve } from 'path';
 
 dotenv.config();
 
@@ -67,12 +67,18 @@ app.get('/api/health', (req, res) => {
 });
 
 // Connect to MongoDB
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/finsight';
+const mongoURI = process.env.MONGODB_URI;
+if (!mongoURI) {
+  console.error('MONGODB_URI is required. Configure it in the service environment.');
+  process.exit(1);
+}
+if (!process.env.JWT_SECRET || process.env.JWT_SECRET === 'fallback_secret') {
+  console.error('JWT_SECRET is required. Configure a strong secret in the service environment.');
+  process.exit(1);
+}
 const isAtlas = mongoURI.includes('mongodb+srv://');
 
 mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
   serverSelectionTimeoutMS: isAtlas ? 10000 : 5000, // Longer timeout for Atlas
 })
 .then(() => {
@@ -103,6 +109,14 @@ mongoose.connection.on('disconnected', () => {
 
 mongoose.connection.on('reconnected', () => {
   console.log('MongoDB reconnected successfully');
+});
+
+// Serve the built single-page app from the same origin as the API.
+const frontendDist = resolve(__dirname, '../frontend/dist');
+app.use(express.static(frontendDist));
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api/')) return next();
+  res.sendFile(resolve(frontendDist, 'index.html'));
 });
 
 const PORT = process.env.PORT || 5001;

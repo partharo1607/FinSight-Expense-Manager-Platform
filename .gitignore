@@ -32,4 +32,5 @@ uploads/
 
 # MongoDB
 data/
-
+**/.env*
+!**/.env.example

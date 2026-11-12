@@ -6,7 +6,7 @@ This guide will help you deploy FinSight to production.
 
 - **Frontend**: Vercel (Recommended) or Netlify
 - **Backend**: Render (Recommended) or Railway
-- **Database**: MongoDB Atlas (Already configured)
+- **Database**: MongoDB configured through the hosting provider's secret variables
 
 ---
 
@@ -15,7 +15,7 @@ This guide will help you deploy FinSight to production.
 1. GitHub account (you already have this)
 2. Vercel account (free): https://vercel.com/signup
 3. Render account (free): https://render.com/signup
-4. MongoDB Atlas connection string (already configured)
+4. MongoDB connection string configured privately in the hosting provider
 
 ---
 
@@ -44,9 +44,9 @@ In Render dashboard, go to "Environment" tab and add:
 ```
 NODE_ENV=production
 PORT=10000
-MONGODB_URI=mongodb+srv://Parth:amit%40123A@cluster0.7xkhoyh.mongodb.net/finsight?retryWrites=true&w=majority
-JWT_SECRET=your_super_secret_jwt_key_change_this_to_random_string
-OPENAI_API_KEY=your_openai_key_if_you_have_one
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=generate_a_long_random_secret
+OPENAI_API_KEY=your_openai_api_key_optional
 FRONTEND_URL=https://your-frontend-url.vercel.app
 ```
 

@@ -1,5 +1,7 @@
 # FinSight - AI-Powered Expense Intelligence Platform
 
+**Live demo:** Set after deployment.
+
 A comprehensive financial management platform that uses AI to automatically categorize expenses, analyze spending patterns, and provide personalized financial insights.
 
 ## Features
